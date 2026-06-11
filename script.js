@@ -224,3 +224,16 @@ window.addEventListener("load", function () {
     form.reset();
   });
 });
+
+/* CERT MODAL */
+function openCertModal(src) {
+  const modal = document.getElementById("cert-modal");
+  document.getElementById("cert-modal-img").src = src;
+  modal.classList.add("active");
+  modal.style.display = "flex";
+}
+function closeCertModal() {
+  const modal = document.getElementById("cert-modal");
+  modal.classList.remove("active");
+  modal.style.display = "none";
+}
