@@ -1,4 +1,3 @@
-
 /* ==========================================================
    PART 1: GLOBAL RESET + THEME BASE (DARK & LIGHT MODE)
 ========================================================== */
@@ -1573,4 +1572,25 @@ pre[class*="language-"] {
 .cert-card p {
   font-size: 0.85rem;
   margin-bottom: 20px;
+}
+
+/* CERT IMAGE CARDS */
+.cert-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.cert-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 18px #ff6ec7;
+}
+#cert-modal {
+  display: none;
+}
+#cert-modal.active {
+  display: flex !important;
 }
