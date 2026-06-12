@@ -1,3 +1,4 @@
+cat > /home/claude/madhushree-portfolio/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,15 +15,11 @@
   <!-- HERO -->
   <section id="hero">
     <div class="profile reveal">
-      <img src="profile.png" alt="Madhushree B S">
+      <img src="profile.jpg" alt="Madhushree B S">
     </div>
     <h2 class="reveal">Hi I'm</h2>
-    <h1 class="reveal">
-      <span>Madhushree B S</span>
-    </h1>
-    <p class="reveal">
-      Electronics &amp; Communication Engineering Student
-    </p>
+    <h1 class="reveal"><span>Madhushree B S</span></h1>
+    <p class="reveal">Electronics &amp; Communication Engineering Student</p>
   </section>
 
   <!-- SKILL PILLS -->
@@ -35,27 +32,10 @@
   </div>
 
   <!-- INFO CARDS -->
-  <div class="card reveal neon-animated-border">
-    📍 <b>Location</b><br>
-    Mysore, Karnataka, India
-  </div>
-  <div class="card reveal neon-animated-border">
-    💼 <b>Expertise</b><br>
-    Embedded Systems, EV Technologies, BMS, PCB Design, Python, Machine Learning
-  </div>
-  <div class="card reveal neon-animated-border">
-    🛠 <b>Experience</b><br>
-    EV Technology Intern – VisionAstraa EV Academy<br>
-    <small>Feb 2026</small><br>
-    AI &amp; ML Intern – Quantum Learnings (Book Recommendation System)<br>
-    <small>Jun 2024 – Sep 2024</small>
-  </div>
-  <div class="card reveal neon-animated-border">
-    🎓 <b>Education</b><br>
-    BE – ECE<br>
-    Maharaja Institute of Technology Thandavapura, Mysuru<br>
-    <small>CGPA: 8.47 / 10</small>
-  </div>
+  <div class="card reveal neon-animated-border">📍 <b>Location</b><br>Mysore, Karnataka, India</div>
+  <div class="card reveal neon-animated-border">💼 <b>Expertise</b><br>Embedded Systems, EV Technologies, BMS, PCB Design, Python, Machine Learning</div>
+  <div class="card reveal neon-animated-border">🛠 <b>Experience</b><br>EV Technology Intern – VisionAstraa EV Academy<br><small>Feb 2026 – May 2026</small><br>AI &amp; ML Intern – Quantum Learnings (Book Recommendation System)<br><small>Jun 2024 – Sep 2024</small></div>
+  <div class="card reveal neon-animated-border">🎓 <b>Education</b><br>BE – ECE<br>Maharaja Institute of Technology Thandavapura, Mysuru<br><small>CGPA: 8.47 / 10</small></div>
 
   <!-- HOBBIES -->
   <h2 class="section-headline reveal">Hobbies</h2>
@@ -90,16 +70,16 @@
     <div class="hobby-pill neon-animated-border">🌐 Web Technology</div>
   </div>
 
-  <!-- ABOUT ME -->
+  <!-- ABOUT -->
   <div class="card reveal about-card neon-border neon-animated-border">
     <h2 class="section-headline">About Me</h2>
-    <img src="profile.jpg" alt="Madhushree B S" class="about-photo">
+    <img src="intership.jpg" alt="Madhushree B S" class="about-photo">
     <p class="about-text">
       I am Madhushree B S, an Electronics and Communication Engineering undergraduate at Maharaja Institute of Technology Thandavapura, Mysuru (VTU affiliated), maintaining a strong CGPA of 8.47. I have a deep passion for embedded systems, electric vehicle technologies, and intelligent systems.
       <br><br>
-      I completed an EV Technology Internship at VisionAstraa EV Academy where I gained practical knowledge in EV architecture, Battery Management Systems (BMS), CAN communication, motor controllers, and automotive electronics. I also completed an AI &amp; ML internship at Quantum Learnings, where I built a Book Recommendation System using Python-based machine learning.
+      I completed an EV Technology Internship at VisionAstraa EV Academy where I gained practical knowledge in EV architecture, Battery Management Systems (BMS), CAN communication, motor controllers, and automotive electronics. I also completed an AI &amp; ML internship at Quantum Learnings, building a Book Recommendation System using Python-based machine learning.
       <br><br>
-      I hold certifications from Infosys Springboard, IIT Bombay (Spoken Tutorial), Altium Education, Deloitte (Forage), and Quantum Learnings. I am a motivated and detail-oriented learner, always looking to apply my technical skills to solve real-world engineering challenges.
+      I hold certifications from Infosys Springboard, IIT Bombay, Altium Education, Deloitte (Forage), and Quantum Learnings. I am a motivated and detail-oriented learner, always looking to apply my technical skills to solve real-world engineering challenges.
     </p>
   </div>
 
@@ -109,61 +89,57 @@
 
     <div class="project-card reveal">
       <div class="project-image-wrapper">
-        <img src="img_bms.png" alt="Smart BMS" class="project-image" onerror="this.src='https://via.placeholder.com/400x200/111/00f2ff?text=Smart+BMS'">
+        <img src="bms.jpg" alt="Smart BMS" class="project-image">
       </div>
       <h3>Smart Battery Management System (BMS)</h3>
-      <p>Monitors battery voltage, current, and temperature in real time with CAN communication and OLED display visualization.</p>
-      <p class="tech-used"><b>Technologies:</b> Embedded C, CAN Bus, OLED Display, Microcontroller</p>
+      <p>Monitors battery voltage, current, temperature in real time with CAN communication and OLED display visualization.</p>
+      <p class="tech-used"><b>Technologies:</b> Embedded C, CAN Bus, OLED Display, Microcontroller, INA219 Sensor</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="toggleProjectImage(this)"><i class="fas fa-eye"></i> View</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Smart BMS – Details','bms_details.html')"><i class="fas fa-info-circle"></i> Details</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Smart BMS – Code','bms_code.txt')"><i class="fas fa-code"></i> Code</button>
       </div>
     </div>
 
     <div class="project-card reveal">
       <div class="project-image-wrapper">
-        <img src="img_plant.png" alt="Plant Watering System" class="project-image" onerror="this.src='https://via.placeholder.com/400x200/111/00ff99?text=Plant+Watering'">
+        <img src="plant.jpg" alt="Plant Watering" class="project-image">
       </div>
       <h3>Automatic Plant Watering System</h3>
-      <p>Designed a soil moisture-based automated irrigation system using sensors and a microcontroller for smart farming.</p>
-      <p class="tech-used"><b>Technologies:</b> Arduino, Soil Moisture Sensor, Embedded C, Relay Module</p>
+      <p>Soil moisture-based automated irrigation system using sensors and a microcontroller for smart farming.</p>
+      <p class="tech-used"><b>Technologies:</b> Arduino UNO, Soil Moisture Sensor, Relay Module, LCD Display</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="toggleProjectImage(this)"><i class="fas fa-eye"></i> View</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Plant Watering – Details','plant_details.html')"><i class="fas fa-info-circle"></i> Details</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Plant Watering – Code','plant_code.txt')"><i class="fas fa-code"></i> Code</button>
       </div>
     </div>
 
     <div class="project-card reveal">
       <div class="project-image-wrapper">
-        <img src="img_stego.png" alt="Audio Steganography" class="project-image" onerror="this.src='https://via.placeholder.com/400x200/111/ff00ff?text=Audio+Steganography'">
+        <img src="lsb.jpg" alt="Audio Steganography" class="project-image">
       </div>
       <h3>Audio Steganography Using LSB</h3>
-      <p>Built a Python-based application to securely embed secret data within audio files using Least Significant Bit techniques.</p>
-      <p class="tech-used"><b>Technologies:</b> Python, Signal Processing, Cryptography, LSB Algorithm</p>
+      <p>Python application to securely embed secret data within audio files using Least Significant Bit technique.</p>
+      <p class="tech-used"><b>Technologies:</b> Python, NumPy, SciPy, Signal Processing, LSB Algorithm</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="toggleProjectImage(this)"><i class="fas fa-eye"></i> View</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Audio Steganography – Details','lsb_details.html')"><i class="fas fa-info-circle"></i> Details</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Audio Steganography – Code','lsb_code.txt')"><i class="fas fa-code"></i> Code</button>
       </div>
     </div>
 
     <div class="project-card reveal">
       <div class="project-image-wrapper">
-        <img src="img_traffic.png" alt="Traffic Light Controller" class="project-image" onerror="this.src='https://via.placeholder.com/400x200/111/00f2ff?text=Traffic+Controller'">
+        <img src="light.jpg" alt="Traffic Light Controller" class="project-image">
       </div>
       <h3>Traffic Light Controller</h3>
-      <p>Designed and simulated a traffic light control system using a microcontroller and Proteus software with timed sequencing.</p>
-      <p class="tech-used"><b>Technologies:</b> Embedded C, Proteus, Microcontroller, Timer Concepts</p>
+      <p>Traffic light control system using microcontroller and Proteus simulation with timed signal sequencing.</p>
+      <p class="tech-used"><b>Technologies:</b> Embedded C, AT89C51, Proteus, ULN2003, Timer Concepts</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="toggleProjectImage(this)"><i class="fas fa-eye"></i> View</button>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <div class="project-image-wrapper">
-        <img src="img_book.png" alt="Book Recommendation System" class="project-image" onerror="this.src='https://via.placeholder.com/400x200/111/00ff99?text=Book+Recommender'">
-      </div>
-      <h3>Book Recommendation System</h3>
-      <p>Developed a machine learning-based book recommendation system as part of the AI &amp; ML internship at Quantum Learnings.</p>
-      <p class="tech-used"><b>Technologies:</b> Python, Machine Learning, Data Analysis, Recommendation Algorithms</p>
-      <div class="project-actions">
-        <button class="highlight-btn neon-animated-border" onclick="toggleProjectImage(this)"><i class="fas fa-eye"></i> View</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Traffic Light – Details','traffic_details.html')"><i class="fas fa-info-circle"></i> Details</button>
+        <button class="highlight-btn neon-animated-border" onclick="openModal('Traffic Light – Code','traffic_code.txt')"><i class="fas fa-code"></i> Code</button>
       </div>
     </div>
 
@@ -174,9 +150,9 @@
   <div class="projects-grid reveal">
 
     <div class="project-card cert-card">
-      <img src="intership.jpg" alt="VisionAstraa Internship Certificate" class="cert-img" onclick="openCertModal(this.src)">
-      <h3>Internship Completion – Embedded Systems for EV</h3>
-      <p>Organization: VisionAstraa EV Academy<br>Period: Feb 02, 2026 – May 09, 2026</p>
+      <img src="intership.jpg" alt="VisionAstraa Certificate" class="cert-img" onclick="openCertModal(this.src)">
+      <h3>Internship – Embedded Systems for EV</h3>
+      <p>VisionAstraa EV Academy &nbsp;|&nbsp; Feb – May 2026</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="openCertModal('intership.jpg')"><i class="fas fa-eye"></i> View</button>
         <a href="intership.jpg" download class="highlight-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
@@ -184,9 +160,9 @@
     </div>
 
     <div class="project-card cert-card">
-      <img src="bombay.jpg" alt="Arduino Training Certificate" class="cert-img" onclick="openCertModal(this.src)">
+      <img src="bombay.jpg" alt="Arduino Certificate" class="cert-img" onclick="openCertModal(this.src)">
       <h3>Arduino Training</h3>
-      <p>Organization: IIT Bombay – Spoken Tutorial<br>Score: 100% | Feb 14, 2025</p>
+      <p>IIT Bombay – Spoken Tutorial &nbsp;|&nbsp; Score: 100% | Feb 2025</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="openCertModal('bombay.jpg')"><i class="fas fa-eye"></i> View</button>
         <a href="bombay.jpg" download class="highlight-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
@@ -194,9 +170,9 @@
     </div>
 
     <div class="project-card cert-card">
-      <img src="altium.jpg" alt="PCB Design Certificate" class="cert-img" onclick="openCertModal(this.src)">
+      <img src="altium.jpg" alt="PCB Certificate" class="cert-img" onclick="openCertModal(this.src)">
       <h3>PCB Basic Design Course</h3>
-      <p>Organization: Altium Education<br>Date: May 04, 2025</p>
+      <p>Altium Education &nbsp;|&nbsp; May 2025</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="openCertModal('altium.jpg')"><i class="fas fa-eye"></i> View</button>
         <a href="altium.jpg" download class="highlight-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
@@ -206,7 +182,7 @@
     <div class="project-card cert-card">
       <img src="deloitte.jpg" alt="Deloitte Certificate" class="cert-img" onclick="openCertModal(this.src)">
       <h3>Cyber Job Simulation</h3>
-      <p>Organization: Deloitte (via Forage)<br>Date: April 04, 2026</p>
+      <p>Deloitte via Forage &nbsp;|&nbsp; April 2026</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="openCertModal('deloitte.jpg')"><i class="fas fa-eye"></i> View</button>
         <a href="deloitte.jpg" download class="highlight-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
@@ -216,7 +192,7 @@
     <div class="project-card cert-card">
       <img src="skillindia.jpg" alt="Skill India Certificate" class="cert-img" onclick="openCertModal(this.src)">
       <h3>Skill India – Banking (CBSE)</h3>
-      <p>Organization: Skill India / CBSE<br>Date: July 22, 2022</p>
+      <p>Skill India / CBSE &nbsp;|&nbsp; July 2022</p>
       <div class="project-actions">
         <button class="highlight-btn neon-animated-border" onclick="openCertModal('skillindia.jpg')"><i class="fas fa-eye"></i> View</button>
         <a href="skillindia.jpg" download class="highlight-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
@@ -225,21 +201,11 @@
 
   </div>
 
-  <!-- CERT MODAL -->
-  <div id="cert-modal" onclick="closeCertModal()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;justify-content:center;align-items:center;">
-    <img id="cert-modal-img" src="" alt="Certificate" style="max-width:92%;max-height:90vh;border-radius:12px;box-shadow:0 0 40px #ff6ec7;">
-    <span style="position:fixed;top:18px;right:26px;color:#fff;font-size:2rem;cursor:pointer;" onclick="closeCertModal()">✕</span>
-  </div>
-
   <!-- RESUME -->
   <h2 class="section-headline reveal">Resume</h2>
   <div class="resume-actions reveal">
-    <a href="Resume.pdf" target="_blank" class="resume-btn view-btn neon-animated-border">
-      <i class="fas fa-eye"></i> View
-    </a>
-    <a href="Resume.pdf" download class="resume-btn download-btn neon-animated-border">
-      <i class="fas fa-download"></i> Download
-    </a>
+    <a href="Resume.pdf" target="_blank" class="resume-btn view-btn neon-animated-border"><i class="fas fa-eye"></i> View</a>
+    <a href="Resume.pdf" download class="resume-btn download-btn neon-animated-border"><i class="fas fa-download"></i> Download</a>
   </div>
 
   <!-- CONTACT -->
@@ -277,12 +243,30 @@
     </form>
   </section>
 
+  <!-- PROJECT MODAL -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <button id="copyBtn" class="copy-btn neon-animated-border" onclick="copyCode()">Copy Code</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- CERT MODAL -->
+  <div id="cert-modal" onclick="closeCertModal()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:9999;justify-content:center;align-items:center;">
+    <img id="cert-modal-img" src="" alt="Certificate" style="max-width:92%;max-height:90vh;border-radius:12px;box-shadow:0 0 40px #ff6ec7;">
+    <span onclick="closeCertModal()" style="position:fixed;top:18px;right:26px;color:#fff;font-size:2.5rem;cursor:pointer;z-index:10000;">✕</span>
+  </div>
+
   <!-- THEME TOGGLE -->
-  <button onclick="toggleTheme()" class="theme-toggle">
-    <i class="fas fa-moon"></i>
-  </button>
+  <button onclick="toggleTheme()" class="theme-toggle"><i class="fas fa-moon"></i></button>
 
   <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
 </body>
 </html>
+HTMLEOF
+echo "done"
