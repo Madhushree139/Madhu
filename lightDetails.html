@@ -1,0 +1,70 @@
+<h3>Traffic Light Controller</h3>
+
+<p>
+The Traffic Light Controller is a microcontroller-based system that simulates
+and controls the sequencing of traffic signals at a road intersection. It uses
+the AT89C51 microcontroller to implement timed red, yellow, and green light
+sequences that manage vehicle flow efficiently and improve road safety.
+</p>
+
+<p>
+The system was designed using embedded C programming and simulated accurately
+in Proteus software before hardware implementation. Timer concepts are used
+for precise signal timing — RED for 30 seconds, YELLOW for 5 seconds, and
+GREEN for 30 seconds — matching real-world traffic light behavior.
+</p>
+
+<h4>Working Principle</h4>
+<ul>
+  <li>Microcontroller runs an infinite loop of signal sequencing</li>
+  <li>RED light ON for 30 seconds — vehicles stop</li>
+  <li>YELLOW light ON for 5 seconds — vehicles prepare</li>
+  <li>GREEN light ON for 30 seconds — vehicles move</li>
+  <li>YELLOW again for 5 seconds before switching back to RED</li>
+  <li>ULN2003 driver amplifies microcontroller output to drive LEDs</li>
+</ul>
+
+<h4>Main Components Used</h4>
+<ul>
+  <li>AT89C51 Microcontroller (8051 family)</li>
+  <li>Crystal Oscillator — 11.0592 MHz</li>
+  <li>ULN2003 Driver IC</li>
+  <li>Red, Yellow, Green LEDs</li>
+  <li>Resistors and capacitors</li>
+  <li>Power Supply — 5V DC</li>
+  <li>Proteus simulation software</li>
+</ul>
+
+<h4>Signal Timing Sequence</h4>
+<ul>
+  <li>RED → 30 seconds (Stop)</li>
+  <li>YELLOW → 5 seconds (Get Ready)</li>
+  <li>GREEN → 30 seconds (Go)</li>
+  <li>YELLOW → 5 seconds (Slow Down)</li>
+  <li>Cycle repeats continuously</li>
+</ul>
+
+<h4>Features</h4>
+<ul>
+  <li>Accurate timed sequencing using timer interrupts</li>
+  <li>Microcontroller-based smart and reliable control</li>
+  <li>Low power consumption design</li>
+  <li>Simulated in Proteus for verification before hardware build</li>
+  <li>Scalable to multi-lane intersections</li>
+</ul>
+
+<h4>Applications</h4>
+<ul>
+  <li>Road intersection traffic management</li>
+  <li>Pedestrian crossing control systems</li>
+  <li>Smart city traffic automation</li>
+  <li>Embedded systems education and demonstration</li>
+</ul>
+
+<h4>Future Improvements</h4>
+<ul>
+  <li>Add IR sensors to detect vehicle density and adjust timing</li>
+  <li>Implement emergency vehicle override using IR/RF</li>
+  <li>Connect to a central traffic management server via IoT</li>
+  <li>Add pedestrian push-button for crossing request</li>
+</ul>
