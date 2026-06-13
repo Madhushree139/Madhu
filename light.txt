@@ -1,0 +1,252 @@
+/*
+ ============================================================
+   TRAFFIC LIGHT CONTROLLER
+   Author  : Madhushree B S
+   College : Maharaja Institute of Technology Thandavapura
+ ============================================================
+   Hardware:
+     - AT89C51 Microcontroller (8051 family)
+     - Crystal Oscillator: 11.0592 MHz
+     - ULN2003 Driver IC
+     - Red LED    → P1.0
+     - Yellow LED → P1.1
+     - Green LED  → P1.2
+     - Pedestrian Button → P3.2 (INT0)
+     - Emergency Override Button → P3.3 (INT1)
+     - Power Supply: 5V DC
+     - Simulated in Proteus Software
+ ============================================================
+   Signal Timing:
+     RED    → 30 seconds
+     YELLOW →  5 seconds
+     GREEN  → 30 seconds
+     YELLOW →  5 seconds
+     (cycle repeats)
+ ============================================================
+*/
+
+#include <reg51.h>
+
+// ── LED Pin Definitions (Port 1) ──────────────────────────
+sbit RED_LIGHT    = P1^0;
+sbit YELLOW_LIGHT = P1^1;
+sbit GREEN_LIGHT  = P1^2;
+
+// ── Pedestrian Walk Signal (Port 1) ───────────────────────
+sbit WALK_LED     = P1^3;   // Pedestrian walk indicator
+
+// ── 7-Segment Countdown Display (Port 2) ──────────────────
+// (optional — comment out if not using 7-segment)
+unsigned char P2;   // P2 = countdown display data
+
+// ── Button Inputs (Port 3) ────────────────────────────────
+sbit PEDESTRIAN_BTN  = P3^2;   // INT0 — pedestrian crossing request
+sbit EMERGENCY_BTN   = P3^3;   // INT1 — emergency vehicle override
+
+// ── Timing (1 timer tick ≈ 50ms, so 1 sec = 20 ticks) ────
+#define TICK_MS      50     // One timer tick in ms
+#define TICKS_PER_S  20     // Ticks per second (50ms * 20 = 1000ms)
+
+// ── Signal Duration in seconds ────────────────────────────
+#define RED_TIME     30
+#define YELLOW_TIME   5
+#define GREEN_TIME   30
+
+// ── State Machine ─────────────────────────────────────────
+typedef enum {
+  STATE_RED,
+  STATE_RED_YELLOW,
+  STATE_GREEN,
+  STATE_YELLOW,
+  STATE_PEDESTRIAN,
+  STATE_EMERGENCY
+} TrafficState;
+
+TrafficState currentState = STATE_RED;
+
+// ── Global counters ───────────────────────────────────────
+volatile unsigned int timerTicks   = 0;
+volatile bit pedestrianRequest     = 0;
+volatile bit emergencyRequest      = 0;
+
+// ── 7-Segment Lookup Table (0-9) ──────────────────────────
+unsigned char seg7[] = {
+  0x3F, 0x06, 0x5B, 0x4F, 0x66,   // 0,1,2,3,4
+  0x6D, 0x7D, 0x07, 0x7F, 0x6F    // 5,6,7,8,9
+};
+
+// ── Timer0 ISR: fires every 50ms ──────────────────────────
+void timer0_isr(void) interrupt 1 {
+  TH0 = 0x4B;   // Reload for 50ms at 11.0592 MHz
+  TL0 = 0xFF;
+  timerTicks++;
+}
+
+// ── INT0 ISR: Pedestrian button pressed ───────────────────
+void int0_isr(void) interrupt 0 {
+  pedestrianRequest = 1;
+}
+
+// ── INT1 ISR: Emergency button pressed ────────────────────
+void int1_isr(void) interrupt 2 {
+  emergencyRequest = 1;
+}
+
+// ── Turn ALL lights OFF ────────────────────────────────────
+void all_off(void) {
+  RED_LIGHT    = 0;
+  YELLOW_LIGHT = 0;
+  GREEN_LIGHT  = 0;
+  WALK_LED     = 0;
+}
+
+// ── Wait for N seconds using timer ticks ──────────────────
+void wait_seconds(unsigned int seconds) {
+  unsigned int target = seconds * TICKS_PER_S;
+  timerTicks = 0;
+  while (timerTicks < target) {
+    // Update countdown on 7-segment (tens digit on P2)
+    unsigned int remaining = seconds - (timerTicks / TICKS_PER_S);
+    P2 = seg7[remaining % 10];   // Units digit
+    // Check for emergency override
+    if (emergencyRequest) return;
+  }
+}
+
+// ── RED Phase ─────────────────────────────────────────────
+void phase_red(void) {
+  all_off();
+  RED_LIGHT = 1;
+  currentState = STATE_RED;
+  wait_seconds(RED_TIME);
+}
+
+// ── RED + YELLOW Phase (transition) ───────────────────────
+void phase_red_yellow(void) {
+  all_off();
+  RED_LIGHT    = 1;
+  YELLOW_LIGHT = 1;
+  currentState = STATE_RED_YELLOW;
+  wait_seconds(2);   // 2 sec transition
+}
+
+// ── GREEN Phase ───────────────────────────────────────────
+void phase_green(void) {
+  all_off();
+  GREEN_LIGHT = 1;
+  currentState = STATE_GREEN;
+
+  // Handle pedestrian request during green
+  if (pedestrianRequest) {
+    wait_seconds(5);   // Allow 5 more seconds then switch
+    pedestrianRequest = 0;
+  } else {
+    wait_seconds(GREEN_TIME);
+  }
+}
+
+// ── YELLOW Phase ──────────────────────────────────────────
+void phase_yellow(void) {
+  all_off();
+  YELLOW_LIGHT = 1;
+  currentState = STATE_YELLOW;
+  wait_seconds(YELLOW_TIME);
+}
+
+// ── PEDESTRIAN Crossing Phase ─────────────────────────────
+void phase_pedestrian(void) {
+  // All vehicle lights RED, pedestrian WALK LED ON
+  all_off();
+  RED_LIGHT = 1;
+  WALK_LED  = 1;
+  currentState = STATE_PEDESTRIAN;
+  wait_seconds(15);   // 15 seconds for pedestrian to cross
+  WALK_LED = 0;
+
+  // Blink walk LED 3 times as warning
+  unsigned char i;
+  for (i = 0; i < 6; i++) {
+    WALK_LED = !WALK_LED;
+    timerTicks = 0;
+    while (timerTicks < 10);   // 500ms
+  }
+  WALK_LED = 0;
+  pedestrianRequest = 0;
+}
+
+// ── EMERGENCY Override Phase ──────────────────────────────
+void phase_emergency(void) {
+  // All lights OFF except green for emergency
+  all_off();
+  GREEN_LIGHT = 1;
+  currentState = STATE_EMERGENCY;
+  wait_seconds(20);   // Green for 20 seconds
+  emergencyRequest = 0;
+}
+
+// ── Timer Init ────────────────────────────────────────────
+void timer0_init(void) {
+  TMOD = 0x01;   // Timer0, Mode 1 (16-bit)
+  TH0  = 0x4B;   // 50ms at 11.0592 MHz
+  TL0  = 0xFF;
+  ET0  = 1;       // Enable Timer0 interrupt
+  TR0  = 1;       // Start Timer0
+}
+
+// ── Interrupt Init ────────────────────────────────────────
+void interrupt_init(void) {
+  IT0 = 1;   // INT0 falling edge triggered
+  IT1 = 1;   // INT1 falling edge triggered
+  EX0 = 1;   // Enable INT0
+  EX1 = 1;   // Enable INT1
+  EA  = 1;   // Enable global interrupts
+}
+
+// ── MAIN ──────────────────────────────────────────────────
+void main(void) {
+  // Initialize
+  P1 = 0x00;   // All port 1 outputs LOW
+  P2 = 0x00;   // Clear 7-segment display
+  P3 = 0xFF;   // Port 3 as input (buttons)
+
+  timer0_init();
+  interrupt_init();
+
+  pedestrianRequest = 0;
+  emergencyRequest  = 0;
+
+  // ── Main Traffic Light Loop ────────────────────────────
+  while (1) {
+
+    // ── Emergency Override check ─────────────────────────
+    if (emergencyRequest) {
+      phase_emergency();
+      continue;
+    }
+
+    // ── Normal sequence ───────────────────────────────────
+    // RED phase
+    phase_red();
+
+    // Pedestrian request during RED
+    if (pedestrianRequest) {
+      phase_pedestrian();
+    }
+
+    // RED + YELLOW transition
+    phase_red_yellow();
+
+    // GREEN phase
+    phase_green();
+
+    // Pedestrian request during/after GREEN
+    if (pedestrianRequest) {
+      phase_pedestrian();
+    }
+
+    // YELLOW phase
+    phase_yellow();
+
+    // Cycle back to RED
+  }
+}
