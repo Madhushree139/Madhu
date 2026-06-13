@@ -1,0 +1,72 @@
+<h3>Smart Battery Management System (BMS)</h3>
+
+<p>
+The Smart Battery Management System (BMS) is a real-time battery monitoring
+and protection system designed for Li-ion and LiFePO4 battery packs used in
+electric vehicles, e-bikes, and energy storage systems. It continuously
+monitors critical battery parameters and ensures safe operation at all times.
+</p>
+
+<p>
+The system uses an INA219 current sensor along with a voltage divider and
+temperature sensor to measure battery voltage, current, temperature, State of
+Charge (SOC) and State of Health (SOH). All live data is displayed on a 0.96"
+OLED screen and transmitted over CAN bus to other system nodes.
+</p>
+
+<h4>Working Principle</h4>
+<ul>
+  <li>INA219 sensor measures current and bus voltage continuously</li>
+  <li>Analog temperature sensor reads battery pack temperature</li>
+  <li>MCU calculates SOC and SOH based on readings</li>
+  <li>OLED displays all parameters in real-time</li>
+  <li>CAN transceiver sends data to other BMS or vehicle ECU nodes</li>
+  <li>Protection triggers cut-off relay on fault conditions</li>
+</ul>
+
+<h4>Main Components Used</h4>
+<ul>
+  <li>Arduino / STM32 Microcontroller</li>
+  <li>INA219 Current and Voltage Sensor</li>
+  <li>NTC Thermistor (Temperature Sensor)</li>
+  <li>0.96" OLED Display (SSD1306)</li>
+  <li>CAN Bus Transceiver (MCP2551)</li>
+  <li>Li-ion / LiFePO4 Battery Pack</li>
+  <li>Protection Circuit (MOSFETs / Relay)</li>
+  <li>Power Supply and connecting wires</li>
+</ul>
+
+<h4>Parameters Monitored</h4>
+<ul>
+  <li>Voltage Range: 0 – 60 V</li>
+  <li>Current Range: 0 – 50 A</li>
+  <li>Temperature Range: -20°C to +80°C</li>
+  <li>State of Charge (SOC) in %</li>
+  <li>State of Health (SOH) in %</li>
+  <li>Communication: CAN Protocol</li>
+</ul>
+
+<h4>Protection Features</h4>
+<ul>
+  <li>Overvoltage protection</li>
+  <li>Undervoltage protection</li>
+  <li>Overcurrent protection</li>
+  <li>Overtemperature protection</li>
+  <li>Short circuit protection</li>
+</ul>
+
+<h4>Applications</h4>
+<ul>
+  <li>Electric Vehicles (EV) battery packs</li>
+  <li>E-bikes and E-scooters</li>
+  <li>Energy Storage Systems (ESS)</li>
+  <li>Solar power battery banks</li>
+</ul>
+
+<h4>Future Improvements</h4>
+<ul>
+  <li>Add wireless Bluetooth / WiFi monitoring app</li>
+  <li>Implement Coulomb counting for accurate SOC</li>
+  <li>Add cell balancing for multi-cell battery packs</li>
+  <li>Design custom PCB for compact enclosure</li>
+</ul>
