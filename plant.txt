@@ -1,0 +1,180 @@
+/*
+ ============================================================
+   AUTOMATIC PLANT WATERING SYSTEM
+   Author  : Madhushree B S
+   College : Maharaja Institute of Technology Thandavapura
+ ============================================================
+   Hardware:
+     - Arduino UNO
+     - Soil Moisture Sensor  → A0
+     - Relay Module (5V)     → D8
+     - Water Pump (5V DC)    → via Relay
+     - LCD 16x2 with I2C     → SDA=A4, SCL=A5
+     - Power Supply 5V
+ ============================================================
+*/
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+// ── LCD Setup (Address 0x27, 16 cols, 2 rows) ─────────────
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// ── Pin Definitions ───────────────────────────────────────
+#define MOISTURE_PIN   A0    // Soil moisture sensor analog pin
+#define RELAY_PIN       8    // Relay module control pin
+#define LED_PIN        13    // Built-in LED (pump indicator)
+
+// ── Threshold ─────────────────────────────────────────────
+// Raw ADC value: 0 = wet, 1023 = completely dry
+// Adjust based on your sensor calibration
+#define DRY_THRESHOLD   600   // If reading > this → soil is dry → pump ON
+#define WET_THRESHOLD   400   // If reading < this → soil is wet → pump OFF
+
+// ── Timing ────────────────────────────────────────────────
+#define READ_INTERVAL   1000   // Read sensor every 1 second
+#define PUMP_ON_TIME    5000   // Pump stays ON for 5 seconds max
+#define PUMP_OFF_WAIT   3000   // Wait 3 sec after pump off before re-checking
+
+// ── State Variables ───────────────────────────────────────
+bool     pumpRunning    = false;
+bool     pumpLocked     = false;   // Lock to prevent re-triggering immediately
+int      moistureRaw    = 0;
+int      moisturePct    = 0;
+unsigned long lastRead   = 0;
+unsigned long pumpStart  = 0;
+unsigned long pumpStop   = 0;
+int      wateringCount   = 0;     // Track how many times watered today
+
+// ── Custom LCD Characters ─────────────────────────────────
+byte dropChar[8] = {
+  0b00100, 0b00100, 0b01110, 0b01110,
+  0b11111, 0b11111, 0b11111, 0b01110
+};
+byte plantChar[8] = {
+  0b00100, 0b01110, 0b11111, 0b00100,
+  0b00100, 0b01110, 0b00100, 0b00000
+};
+
+// ── Display Moisture on LCD ───────────────────────────────
+void displayStatus(int pct, bool pumping) {
+  lcd.clear();
+
+  // Row 0: Moisture level
+  lcd.setCursor(0, 0);
+  lcd.write(0);   // drop icon
+  lcd.print(" Moisture: ");
+  lcd.print(pct);
+  lcd.print("%");
+
+  // Row 1: Pump status + watering count
+  lcd.setCursor(0, 1);
+  if (pumping) {
+    lcd.print("Pump:ON  ");
+    lcd.write(0);   // drop icon
+    lcd.print(" Watering");
+  } else {
+    lcd.write(1);   // plant icon
+    lcd.print(" Pump:OFF  #");
+    lcd.print(wateringCount);
+  }
+}
+
+// ── Display startup splash ────────────────────────────────
+void showSplash() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("  Plant Watering");
+  lcd.setCursor(0, 1);
+  lcd.print("   System Ready!");
+  delay(2000);
+  lcd.clear();
+}
+
+// ── SETUP ─────────────────────────────────────────────────
+void setup() {
+  Serial.begin(9600);
+
+  // Pin modes
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(LED_PIN,   OUTPUT);
+  digitalWrite(RELAY_PIN, HIGH);  // Relay OFF (HIGH = OFF for active-low relay)
+  digitalWrite(LED_PIN, LOW);
+
+  // LCD Init
+  lcd.init();
+  lcd.backlight();
+  lcd.createChar(0, dropChar);
+  lcd.createChar(1, plantChar);
+  showSplash();
+
+  Serial.println("=== Plant Watering System Started ===");
+  Serial.println("Dry threshold : " + String(DRY_THRESHOLD));
+  Serial.println("Wet threshold : " + String(WET_THRESHOLD));
+}
+
+// ── Turn Pump ON ──────────────────────────────────────────
+void pumpON() {
+  if (!pumpRunning && !pumpLocked) {
+    digitalWrite(RELAY_PIN, LOW);   // Active LOW relay
+    digitalWrite(LED_PIN, HIGH);
+    pumpRunning = true;
+    pumpStart   = millis();
+    wateringCount++;
+    Serial.println(">>> PUMP ON — Watering started. Count: " + String(wateringCount));
+  }
+}
+
+// ── Turn Pump OFF ─────────────────────────────────────────
+void pumpOFF(String reason) {
+  if (pumpRunning) {
+    digitalWrite(RELAY_PIN, HIGH);
+    digitalWrite(LED_PIN, LOW);
+    pumpRunning = false;
+    pumpLocked  = true;    // Lock re-trigger
+    pumpStop    = millis();
+    Serial.println(">>> PUMP OFF — Reason: " + reason);
+  }
+}
+
+// ── LOOP ──────────────────────────────────────────────────
+void loop() {
+  unsigned long now = millis();
+
+  // ── Sensor read every READ_INTERVAL ───────────────────
+  if (now - lastRead >= READ_INTERVAL) {
+    lastRead = now;
+
+    moistureRaw = analogRead(MOISTURE_PIN);
+    moisturePct = map(moistureRaw, 1023, 0, 0, 100);   // 0=dry, 100=wet
+    moisturePct = constrain(moisturePct, 0, 100);
+
+    Serial.print("Moisture Raw: "); Serial.print(moistureRaw);
+    Serial.print(" | Percent: ");   Serial.print(moisturePct);
+    Serial.print("% | Pump: ");     Serial.println(pumpRunning ? "ON" : "OFF");
+
+    // ── Pump control logic ──────────────────────────────
+    if (!pumpLocked) {
+      if (moistureRaw > DRY_THRESHOLD && !pumpRunning) {
+        pumpON();   // Soil is dry — start watering
+      }
+      if (moistureRaw < WET_THRESHOLD && pumpRunning) {
+        pumpOFF("Soil is now wet");   // Soil is wet — stop
+      }
+    }
+
+    // ── Display update ──────────────────────────────────
+    displayStatus(moisturePct, pumpRunning);
+  }
+
+  // ── Safety: auto shut-off pump after PUMP_ON_TIME ─────
+  if (pumpRunning && (now - pumpStart >= PUMP_ON_TIME)) {
+    pumpOFF("Max pump time reached");
+  }
+
+  // ── Release lock after PUMP_OFF_WAIT ──────────────────
+  if (pumpLocked && (now - pumpStop >= PUMP_OFF_WAIT)) {
+    pumpLocked = false;
+    Serial.println("Lock released — ready to water again.");
+  }
+}
