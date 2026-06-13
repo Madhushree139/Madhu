@@ -1,0 +1,75 @@
+<h3>Audio Steganography Using LSB</h3>
+
+<p>
+Audio Steganography using LSB (Least Significant Bit) is a data hiding
+technique that secretly embeds text or file data inside an audio file without
+any audible change to the sound. The hidden information is completely
+invisible to anyone listening to the audio, making it a powerful tool for
+secure and covert data transmission.
+</p>
+
+<p>
+This project is implemented in Python using NumPy and SciPy libraries. The
+system achieved an SNR (Signal-to-Noise Ratio) of 58.42 dB, which confirms
+that the audio quality is excellently maintained even after hiding data.
+The extracted data matches the original secret data perfectly.
+</p>
+
+<h4>Working Principle</h4>
+<ul>
+  <li>Load the original audio WAV file using SciPy</li>
+  <li>Convert secret message to binary (8 bits per character)</li>
+  <li>Replace the Least Significant Bit of each audio sample with one data bit</li>
+  <li>The change per sample is only 1 bit — completely inaudible</li>
+  <li>Save the modified audio as a Stego Audio file</li>
+  <li>To extract: read LSBs of each sample and reconstruct the message</li>
+</ul>
+
+<h4>Main Components / Tools Used</h4>
+<ul>
+  <li>Python 3.x</li>
+  <li>NumPy — array and bit manipulation</li>
+  <li>SciPy — WAV audio file reading and writing</li>
+  <li>WAV audio files (16-bit PCM format)</li>
+  <li>Termination sequence (11111111) to mark end of data</li>
+</ul>
+
+<h4>How LSB Works</h4>
+<ul>
+  <li>Original sample (16-bit): 0010110011010110</li>
+  <li>Last bit (LSB) changed to embed one data bit</li>
+  <li>After embedding: 0010110011010111</li>
+  <li>Change is only 1 out of 65536 levels — completely inaudible</li>
+</ul>
+
+<h4>Results Achieved</h4>
+<ul>
+  <li>SNR: 58.42 dB — Excellent audio quality maintained</li>
+  <li>Extracted data matches secret data 100% accurately</li>
+  <li>Supports embedding text, file content, and binary data</li>
+</ul>
+
+<h4>Features</h4>
+<ul>
+  <li>Completely inaudible changes to the audio file</li>
+  <li>Supports text or file hiding inside WAV audio</li>
+  <li>Secure — hidden data is invisible without the extraction key</li>
+  <li>High SNR ensures excellent audio quality after embedding</li>
+  <li>Fast processing using NumPy array operations</li>
+</ul>
+
+<h4>Applications</h4>
+<ul>
+  <li>Covert secure communication</li>
+  <li>Digital watermarking of audio content</li>
+  <li>Copyright protection</li>
+  <li>Cybersecurity and data hiding research</li>
+</ul>
+
+<h4>Future Improvements</h4>
+<ul>
+  <li>Add encryption (AES) before embedding for double security</li>
+  <li>Support MP3 and other audio formats</li>
+  <li>Build a GUI application for easy use</li>
+  <li>Increase embedding capacity using multi-bit LSB</li>
+</ul>
