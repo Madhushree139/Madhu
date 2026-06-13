@@ -1,0 +1,70 @@
+<h3>Automatic Plant Watering System</h3>
+
+<p>
+The Automatic Plant Watering System is a smart irrigation solution that
+monitors soil moisture levels and automatically waters plants when the soil
+becomes dry. It eliminates the need for manual watering and ensures plants
+always receive the right amount of water at the right time.
+</p>
+
+<p>
+A soil moisture sensor is inserted into the soil and continuously reads the
+moisture content. When the moisture drops below a set threshold, the Arduino
+activates the relay module which switches on the water pump. The system also
+displays the current moisture percentage and pump status on a 16x2 LCD screen.
+</p>
+
+<h4>Working Principle</h4>
+<ul>
+  <li>Soil moisture sensor measures the water content in the soil</li>
+  <li>Arduino reads analog value from sensor pin A0</li>
+  <li>If moisture is below threshold — relay activates and pump turns ON</li>
+  <li>If moisture is sufficient — relay deactivates and pump turns OFF</li>
+  <li>LCD displays live moisture percentage and pump status</li>
+  <li>Process repeats continuously every second</li>
+</ul>
+
+<h4>Main Components Used</h4>
+<ul>
+  <li>Arduino UNO</li>
+  <li>Soil Moisture Sensor (Analog)</li>
+  <li>Relay Module — 5V</li>
+  <li>Mini Water Pump — 5V DC</li>
+  <li>LCD Display 16x2 with I2C module</li>
+  <li>Water pipe / tube</li>
+  <li>Power Supply 5V</li>
+  <li>Jumper wires and breadboard</li>
+</ul>
+
+<h4>Pin Connections</h4>
+<ul>
+  <li>Moisture Sensor OUT → Arduino A0</li>
+  <li>Relay IN → Arduino D8</li>
+  <li>VCC → 5V | GND → GND</li>
+  <li>LCD SDA → A4 | LCD SCL → A5</li>
+</ul>
+
+<h4>Features</h4>
+<ul>
+  <li>Fully automated — no manual intervention needed</li>
+  <li>Saves water by watering only when required</li>
+  <li>Real-time moisture display on LCD</li>
+  <li>Low-cost and easy to build</li>
+  <li>Suitable for indoor and outdoor use</li>
+</ul>
+
+<h4>Applications</h4>
+<ul>
+  <li>Home gardens and indoor plants</li>
+  <li>Greenhouses and nurseries</li>
+  <li>Agriculture fields (scaled up)</li>
+  <li>Terrace and balcony farming</li>
+</ul>
+
+<h4>Future Improvements</h4>
+<ul>
+  <li>Add IoT (ESP8266) for remote monitoring via mobile app</li>
+  <li>Add multiple sensors for large garden areas</li>
+  <li>Integrate solar panel for outdoor power</li>
+  <li>Add rain sensor to avoid watering during rainfall</li>
+</ul>
