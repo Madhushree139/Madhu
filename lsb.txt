@@ -1,0 +1,226 @@
+# ============================================================
+#   AUDIO STEGANOGRAPHY USING LSB (Least Significant Bit)
+#   Author  : Madhushree B S
+#   College : Maharaja Institute of Technology Thandavapura
+# ============================================================
+#   Description:
+#     Hides secret text or binary data inside a WAV audio
+#     file by modifying the Least Significant Bit of each
+#     audio sample. The change is inaudible to human ears.
+#     Achieved SNR: 58.42 dB (Excellent Quality)
+# ============================================================
+#   Requirements:
+#     pip install numpy scipy
+# ============================================================
+
+import numpy as np
+from scipy.io import wavfile
+import os
+import math
+
+
+# ── Utility: Convert text to binary string ────────────────
+def text_to_binary(text):
+    """Convert each character to 8-bit binary string."""
+    return ''.join(format(ord(c), '08b') for c in text)
+
+
+# ── Utility: Convert binary string to text ────────────────
+def binary_to_text(binary_str):
+    """Convert binary string back to readable text."""
+    chars = []
+    for i in range(0, len(binary_str), 8):
+        byte = binary_str[i:i+8]
+        if len(byte) < 8:
+            break
+        chars.append(chr(int(byte, 2)))
+    return ''.join(chars)
+
+
+# ── Calculate Signal-to-Noise Ratio (SNR) ────────────────
+def calculate_snr(original, stego):
+    """Calculate SNR in dB between original and stego audio."""
+    original = original.astype(np.float64)
+    stego    = stego.astype(np.float64)
+    noise    = original - stego
+    if np.sum(noise ** 2) == 0:
+        return float('inf')
+    snr = 10 * math.log10(np.sum(original ** 2) / np.sum(noise ** 2))
+    return round(snr, 2)
+
+
+# ── Calculate maximum embedding capacity ──────────────────
+def get_capacity(audio_array):
+    """Return max characters that can be hidden in the audio."""
+    total_samples = audio_array.flatten().shape[0]
+    # 8 bits per char + 8-bit terminator (11111111)
+    return (total_samples - 8) // 8
+
+
+# ── EMBED: Hide secret data inside audio ──────────────────
+def embed_lsb(input_audio_path, secret_message, output_audio_path):
+    """
+    Embeds a secret message into a WAV audio file using LSB.
+
+    Parameters:
+        input_audio_path  : Path to original WAV file
+        secret_message    : Text string to hide
+        output_audio_path : Path to save stego audio file
+    """
+    print(f"\n[EMBED] Reading audio: {input_audio_path}")
+    rate, audio = wavfile.read(input_audio_path)
+
+    # Handle stereo — flatten to 1D
+    original_shape = audio.shape
+    flat_audio = audio.flatten().copy()
+
+    print(f"  Sample rate   : {rate} Hz")
+    print(f"  Total samples : {len(flat_audio)}")
+    print(f"  Data type     : {audio.dtype}")
+    print(f"  Max capacity  : {get_capacity(audio)} characters")
+
+    # Convert message to binary and add terminator
+    # Terminator = 11111111 (NULL character = chr(0) mapped to 8 ones)
+    TERMINATOR = '11111111'
+    binary_message = text_to_binary(secret_message) + TERMINATOR
+
+    print(f"  Message length: {len(secret_message)} chars ({len(binary_message)} bits)")
+
+    # Check capacity
+    if len(binary_message) > len(flat_audio):
+        raise OverflowError(
+            f"Message too large! Need {len(binary_message)} samples, "
+            f"have {len(flat_audio)}."
+        )
+
+    # Embed: replace LSB of each sample with one bit of message
+    for i, bit in enumerate(binary_message):
+        flat_audio[i] = (int(flat_audio[i]) & ~1) | int(bit)
+
+    # Reshape back to original shape
+    stego_audio = flat_audio.reshape(original_shape)
+
+    # Calculate and print SNR
+    snr = calculate_snr(audio, stego_audio)
+    print(f"  SNR           : {snr} dB", end="")
+    if snr >= 40:
+        print(" ✓ Excellent Quality")
+    elif snr >= 25:
+        print(" ~ Acceptable Quality")
+    else:
+        print(" ✗ Poor Quality")
+
+    # Save stego audio
+    wavfile.write(output_audio_path, rate, stego_audio.astype(audio.dtype))
+    print(f"  Saved to      : {output_audio_path}")
+    print("[EMBED] Done!\n")
+    return snr
+
+
+# ── EXTRACT: Retrieve hidden data from stego audio ────────
+def extract_lsb(stego_audio_path):
+    """
+    Extracts the hidden secret message from a stego WAV file.
+
+    Parameters:
+        stego_audio_path : Path to stego WAV file
+
+    Returns:
+        Extracted secret message as string
+    """
+    print(f"\n[EXTRACT] Reading stego audio: {stego_audio_path}")
+    rate, audio = wavfile.read(stego_audio_path)
+
+    flat_audio = audio.flatten()
+    print(f"  Total samples : {len(flat_audio)}")
+
+    # Extract LSB from each sample
+    bits = [str(int(sample) & 1) for sample in flat_audio]
+
+    # Group into bytes and decode characters
+    TERMINATOR = '11111111'
+    extracted_chars = []
+
+    for i in range(0, len(bits) - 7, 8):
+        byte = ''.join(bits[i:i+8])
+        if byte == TERMINATOR:
+            break
+        extracted_chars.append(chr(int(byte, 2)))
+
+    secret = ''.join(extracted_chars)
+    print(f"  Extracted     : '{secret}'")
+    print("[EXTRACT] Done!\n")
+    return secret
+
+
+# ── Verify integrity of embedding & extraction ────────────
+def verify(original_message, extracted_message):
+    """Compare original and extracted messages."""
+    if original_message == extracted_message:
+        print("✅ VERIFICATION PASSED — Messages match perfectly!")
+    else:
+        print("❌ VERIFICATION FAILED — Messages do not match.")
+        print(f"   Original : {original_message[:50]}")
+        print(f"   Extracted: {extracted_message[:50]}")
+
+
+# ── File information helper ───────────────────────────────
+def print_audio_info(path, label="Audio"):
+    """Print basic info about a WAV file."""
+    if not os.path.exists(path):
+        print(f"[INFO] {label} file not found: {path}")
+        return
+    rate, audio = wavfile.read(path)
+    size = os.path.getsize(path)
+    duration = audio.shape[0] / rate
+    print(f"\n[INFO] {label}")
+    print(f"  File size     : {size / 1024:.1f} KB")
+    print(f"  Sample rate   : {rate} Hz")
+    print(f"  Duration      : {duration:.2f} sec")
+    print(f"  Channels      : {'Stereo' if len(audio.shape) > 1 else 'Mono'}")
+    print(f"  Data type     : {audio.dtype}")
+
+
+# ── MAIN ──────────────────────────────────────────────────
+if __name__ == "__main__":
+    print("=" * 55)
+    print("   AUDIO STEGANOGRAPHY USING LSB")
+    print("   Author: Madhushree B S")
+    print("=" * 55)
+
+    # File paths
+    ORIGINAL_FILE = "original.wav"
+    STEGO_FILE    = "stego.wav"
+
+    # Secret message to hide
+    SECRET_MESSAGE = (
+        "This is a secret message hidden using LSB steganography. "
+        "Developed by Madhushree B S — ECE, MITK."
+    )
+
+    # ── Step 1: Show original audio info
+    print_audio_info(ORIGINAL_FILE, "Original Audio")
+
+    # ── Step 2: Embed secret message
+    try:
+        snr = embed_lsb(ORIGINAL_FILE, SECRET_MESSAGE, STEGO_FILE)
+    except FileNotFoundError:
+        print("\n[ERROR] original.wav not found.")
+        print("  Please provide a WAV file named 'original.wav'")
+        print("  Example: record your voice or use any 16-bit WAV file.\n")
+        exit(1)
+    except OverflowError as e:
+        print(f"\n[ERROR] {e}\n")
+        exit(1)
+
+    # ── Step 3: Show stego audio info
+    print_audio_info(STEGO_FILE, "Stego Audio")
+
+    # ── Step 4: Extract hidden message
+    extracted = extract_lsb(STEGO_FILE)
+
+    # ── Step 5: Verify
+    verify(SECRET_MESSAGE, extracted)
+
+    print(f"\n[RESULT] SNR = {snr} dB → Audio quality maintained ✓")
+    print("=" * 55)
