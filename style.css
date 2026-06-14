@@ -1,10 +1,4 @@
-/* ============================================================
-   MADHUSHREE B S — PORTFOLIO CSS
-   Theme : Neon — Blue · Purple · Green
-   Pure white (light) / Pure black (dark) backgrounds
-============================================================ */
 
-/* ── VARIABLES ─────────────────────────────────────────── */
 :root {
   --c-blue   : #00c8ff;
   --c-purple : #a855f7;
@@ -685,7 +679,7 @@ body.light-mode #hero::before { display:none; }
   margin-bottom: 8px; color: var(--c-muted);
 }
 #modalBody ul li::before {
-  content: "▸";
+  content: "✦";
   position: absolute; left: 0; top: 0;
   color: var(--c-green); font-size: .9rem;
 }
