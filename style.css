@@ -776,15 +776,15 @@ body.light-mode .close-btn { color: #888; }
     var(--c-green) 240deg, transparent 300deg, var(--c-blue) 360deg
   );
   animation: spin360 2.5s linear infinite;
-  z-index: -0.50;
+  z-index: -1px;
 }
 .theme-toggle::after {
   content: "";
-  position: absolute; inset: 0.50px; border-radius: 50%;
+  position: absolute; inset: 1px; border-radius: 50%;
   background: var(--c-card); z-index: -1;
 }
 .theme-toggle:hover { transform: scale(1.12); color: var(--c-green); }
-.theme-toggle:hover::before { animation-duration: .9s; }
+.theme-toggle:hover::before { animation-duration: .8s; }
 body.light-mode .theme-toggle { color: var(--c-purple); background: #fff; }
 body.light-mode .theme-toggle::after { background: #fff; }
 
