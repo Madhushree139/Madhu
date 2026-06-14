@@ -203,7 +203,7 @@ body.light-mode #hero::before { display:none; }
 .hero-skills {
   display: flex; flex-wrap: wrap;
   justify-content: center; gap: 10px;
-  margin-bottom: 30; padding: 0 16px;
+  margin-bottom: 35px; padding: 0 16px;
 }
 .skill-pill {
   padding: 7px 20px; border-radius: 20px;
@@ -315,14 +315,14 @@ body.light-mode #hero::before { display:none; }
   padding: 40px 36px; gap: 20px;
 }
 .about-photo {
-  width: 600px; height: 800px;
+  width: 800px; height: 800px;
   border-radius: 16px; object-fit: cover;
   border: 1px solid var(--c-blue);
   box-shadow: 0 0 20px var(--glow-b), 0 0 40px var(--glow-p);
   transition: transform .4s ease, box-shadow .4s ease;
 }
 .about-photo:hover {
-  transform: scale(1.03);
+  transform: scale(1.2);
   box-shadow: 0 0 20px var(--glow-b), 0 0 50px var(--glow-p);
 }
 .about-text {
@@ -413,7 +413,7 @@ body.light-mode #hero::before { display:none; }
 /* ── Card text ──────────────────────────────────────────── */
 .project-card h3 {
   font-size: 1.12rem; font-weight: 600;
-  margin-bottom: 8px; letter-spacing: .3px;
+  margin-bottom: 12px; letter-spacing: .3px;
   color: var(--accent, var(--c-blue));
   position: relative; z-index: 1;
 }
@@ -839,10 +839,10 @@ body.light-mode .highlight-btn:nth-child(3) { background:rgba(0,255,136,.04); }
   #hero h1 { font-size: 2.2rem; }
   .section-headline { font-size: 1.6rem; letter-spacing: 2px; }
   .about-card { padding: 20px 14px; }
-  .about-photo { width: 250px; height: 280px; }
+  .about-photo { width: 300px; height: 300px; }
   .contact-form { padding: 22px 16px; }
   .resume-actions { flex-direction: column; align-items: center; }
-  .resume-btn { width: 220px; justify-content: center; }
+  .resume-btn { width: 200px; justify-content: center; }
   .theme-toggle { top: 14px; left: 14px; width: 20px; height: 20px; font-size: .80rem; }
   .project-actions { flex-wrap: nowrap; }
   .highlight-btn { font-size: .72rem; padding: 8px 2px; }
