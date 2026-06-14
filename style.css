@@ -320,7 +320,7 @@ body.light-mode #hero::before { display:none; }
   box-shadow: 0 0 20px var(--glow-b), 0 0 50px var(--glow-p);
 }
 .about-text {
-  font-size: 1rem; color: var(--c-muted);
+  font-size: 1rem; color: #000000;
   max-width: 680px; line-height: 1.9;
   text-align: justify;
   }
