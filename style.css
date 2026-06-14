@@ -315,7 +315,7 @@ body.light-mode #hero::before { display:none; }
   padding: 40px 36px; gap: 20px;
 }
 .about-photo {
-  width: 280px; height: 280px;
+  width: 450px; height: 450px;
   border-radius: 16px; object-fit: cover;
   border: 1px solid var(--c-blue);
   box-shadow: 0 0 20px var(--glow-b), 0 0 40px var(--glow-p);
