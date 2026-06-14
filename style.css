@@ -157,7 +157,7 @@ body.light-mode #hero::before { display:none; }
     var(--c-green) 240deg, var(--c-blue) 360deg
   );
   animation: spin360 3s linear infinite;
-  z-index: -1;
+  z-index: -2;
 }
 .profile::after {
   content: "";
@@ -770,7 +770,7 @@ body.light-mode .close-btn { color: #888; }
 }
 .theme-toggle::before {
   content: "";
-  position: absolute; inset: -1px; border-radius: 50%;
+  position: absolute; inset: 1px; border-radius: 50%;
   background: conic-gradient(
     var(--c-blue) 0deg, var(--c-purple) 120deg,
     var(--c-green) 240deg, transparent 300deg, var(--c-blue) 360deg
