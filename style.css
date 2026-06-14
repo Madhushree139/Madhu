@@ -789,6 +789,66 @@ body.light-mode .theme-toggle { color: var(--c-purple); background: #fff; }
 body.light-mode .theme-toggle::after { background: #fff; }
 
 /* ============================================================
+   THEME TOGGLE — smaller, thin spinning neon ring (override)
+============================================================ */
+.theme-toggle {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  z-index: 3000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--c-blue);
+  background: var(--c-card);
+  border: none;
+  transition: color .4s ease, transform .4s ease;
+}
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--c-blue) 0deg,
+    var(--c-purple) 120deg,
+    var(--c-green) 240deg,
+    transparent 300deg,
+    var(--c-blue) 360deg
+  );
+  animation: spin360 2.5s linear infinite;
+  z-index: -1;
+}
+.theme-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--c-card);
+  z-index: -1;
+}
+.theme-toggle:hover {
+  transform: scale(1.15);
+  color: var(--c-green);
+}
+.theme-toggle:hover::before {
+  animation-duration: .8s;
+}
+body.light-mode .theme-toggle {
+  color: var(--c-purple);
+  background: #fff;
+}
+body.light-mode .theme-toggle::after {
+  background: #fff;
+}
+
+
+/* ============================================================
    SCROLL REVEAL
 ============================================================ */
 .reveal {
@@ -855,3 +915,5 @@ body.light-mode .highlight-btn:nth-child(3) { background:rgba(0,255,136,.04); }
   .contact-cards { grid-template-columns: 1fr; }
   .highlight-btn { font-size: .68rem; padding: 7px 2px; gap:3px; }
 }
+
+
