@@ -762,7 +762,7 @@ body.light-mode .close-btn { color: #888; }
   width: 15px; height: 15px; border-radius: 50%;
   z-index: 3000; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: .80rem;
+  font-size: 1rem;
   color: var(--c-blue);
   background: var(--c-card);
   border: none;
@@ -770,7 +770,7 @@ body.light-mode .close-btn { color: #888; }
 }
 .theme-toggle::before {
   content: "";
-  position: absolute; inset: -0.50px; border-radius: 50%;
+  position: absolute; inset: -1px; border-radius: 50%;
   background: conic-gradient(
     var(--c-blue) 0deg, var(--c-purple) 120deg,
     var(--c-green) 240deg, transparent 300deg, var(--c-blue) 360deg
