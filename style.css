@@ -556,7 +556,7 @@ body.light-mode #hero::before { display:none; }
 /* ── Social icons — round with neon borders ──────────────── */
 .contact-social {
   display: flex; justify-content: center;
-  gap: 16px; margin-bottom: 40px; flex-wrap: wrap;
+  gap: 20px; margin-bottom: 40px; flex-wrap: wrap;
 }
 .contact-social a {
   width: 46px; height: 46px; border-radius: 50%;
@@ -759,10 +759,10 @@ body.light-mode .close-btn { color: #888; }
 ============================================================ */
 .theme-toggle {
   position: fixed; top: 24px; left: 24px;
-  width: 46px; height: 46px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   z-index: 3000; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
+  font-size: 1.20rem;
   color: var(--c-blue);
   background: var(--c-card);
   border: none;
@@ -770,7 +770,7 @@ body.light-mode .close-btn { color: #888; }
 }
 .theme-toggle::before {
   content: "";
-  position: absolute; inset: -2px; border-radius: 50%;
+  position: absolute; inset: -1px; border-radius: 50%;
   background: conic-gradient(
     var(--c-blue) 0deg, var(--c-purple) 120deg,
     var(--c-green) 240deg, transparent 300deg, var(--c-blue) 360deg
@@ -780,7 +780,7 @@ body.light-mode .close-btn { color: #888; }
 }
 .theme-toggle::after {
   content: "";
-  position: absolute; inset: 2px; border-radius: 50%;
+  position: absolute; inset: 1px; border-radius: 50%;
   background: var(--c-card); z-index: -1;
 }
 .theme-toggle:hover { transform: scale(1.12); color: var(--c-green); }
