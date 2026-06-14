@@ -150,7 +150,7 @@ body.light-mode #hero::before { display:none; }
 .profile::before {
   content: "";
   position: absolute;
-  inset: -5px;
+  inset: -6px;
   border-radius: 50%;
   background: conic-gradient(
     var(--c-blue) 0deg, var(--c-purple) 120deg,
