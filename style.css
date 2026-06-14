@@ -332,6 +332,9 @@ body.light-mode #hero::before { display:none; }
   font-size: 1rem; color: var(--c-muted);
   max-width: 680px; line-height: 1.9;
 }
+.about-text{
+    padding: 0 35px;
+  }
 .about-text strong { color: var(--c-blue); }
  
 /* ============================================================
