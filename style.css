@@ -756,7 +756,7 @@ body.light-mode .close-btn { color: #888; }
 
 /* ============================================================
    THEME TOGGLE
-============================================================ */
+============================================================ *
 .theme-toggle {
   position: fixed; top: 20px; left: 20px;
   width: 15px; height: 15px; border-radius: 50%;
@@ -812,7 +812,7 @@ body.light-mode .theme-toggle::after { background: #fff; }
 .theme-toggle::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: -.10px;
   border-radius: 50%;
   background: conic-gradient(
     var(--c-blue) 0deg,
@@ -827,7 +827,7 @@ body.light-mode .theme-toggle::after { background: #fff; }
 .theme-toggle::after {
   content: "";
   position: absolute;
-  inset: 1px;
+  inset: .10px;
   border-radius: 50%;
   background: var(--c-card);
   z-index: -1;
