@@ -322,9 +322,18 @@ body.light-mode #hero::before { display:none; }
 .about-text {
   font-size: 1rem; color: var(--c-muted);
   max-width: 680px; line-height: 1.9;
+  text-align: justify;
+  }
+.about-text {
+  text-align: justify;
+  text-align-last: left;
+  }
+.about-text {
+  font-size: 1rem; color: var(--c-muted);
+  max-width: 680px; line-height: 1.9;
 }
 .about-text strong { color: var(--c-blue); }
-
+ 
 /* ============================================================
    PROJECTS GRID
 ============================================================ */
