@@ -333,7 +333,7 @@ body.light-mode #hero::before { display:none; }
   max-width: 680px; line-height: 1.9;
 }
 .about-text{
-    padding: 0 35px;
+    padding: 0 25px;
   }
 .about-text strong { color: var(--c-blue); }
  
