@@ -48,7 +48,7 @@ a { text-decoration:none; color:inherit; }
 button { font-family:inherit; cursor:pointer; border:none; outline:none; background:none; }
 
 /* ── SCROLLBAR ──────────────────────────────────────────── */
-::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar { width:2px; }
 ::-webkit-scrollbar-track { background:var(--c-bg); }
 ::-webkit-scrollbar-thumb { background:var(--c-blue); border-radius:4px; }
 
@@ -315,7 +315,7 @@ body.light-mode #hero::before { display:none; }
   padding: 40px 36px; gap: 20px;
 }
 .about-photo {
-  width: 230px; height: 230px;
+  width: 280px; height: 280px;
   border-radius: 16px; object-fit: cover;
   border: 1px solid var(--c-blue);
   box-shadow: 0 0 20px var(--glow-b), 0 0 40px var(--glow-p);
@@ -323,7 +323,7 @@ body.light-mode #hero::before { display:none; }
 }
 .about-photo:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 30px var(--glow-b), 0 0 60px var(--glow-p);
+  box-shadow: 0 0 20px var(--glow-b), 0 0 50px var(--glow-p);
 }
 .about-text {
   font-size: 1rem; color: var(--c-muted);
