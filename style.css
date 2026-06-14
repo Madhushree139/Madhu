@@ -196,14 +196,14 @@ body.light-mode #hero::before { display:none; }
 #hero p {
   font-size: 1.02rem; color: var(--c-muted);
   max-width: 500px; letter-spacing: .5px;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
 }
 
 /* ── Hero skill pills — gentle float ──────────────────────── */
 .hero-skills {
   display: flex; flex-wrap: wrap;
   justify-content: center; gap: 10px;
-  margin-bottom: 0; padding: 0 16px;
+  margin-bottom: 10; padding: 0 16px;
 }
 .skill-pill {
   padding: 7px 20px; border-radius: 20px;
@@ -315,7 +315,7 @@ body.light-mode #hero::before { display:none; }
   padding: 40px 36px; gap: 20px;
 }
 .about-photo {
-  width: 450px; height: 450px;
+  width: 400px; height: 400px;
   border-radius: 16px; object-fit: cover;
   border: 1px solid var(--c-blue);
   box-shadow: 0 0 20px var(--glow-b), 0 0 40px var(--glow-p);
